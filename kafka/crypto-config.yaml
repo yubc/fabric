@@ -8,7 +8,9 @@ OrdererOrgs:
         Province: GuangDong
         Locality: ShenZhen
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer0
+      - Hostname: orderer1
+      - Hostname: orderer2
       
 PeerOrgs:
   - Name: Org1
