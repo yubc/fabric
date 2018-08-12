@@ -14,7 +14,7 @@ services:
       service: zookeeper
     environment:
       - ZOO_MY_ID=1
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:12888:13888 server.3=zookeeper2.example.com:22888:23888
+      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
     # volumes:
     #   - ./data/zookeeper1/data:/data
     #   - ./data/zookeeper1/datalog:/datalog
@@ -32,7 +32,7 @@ services:
       service: zookeeper
     environment:
       - ZOO_MY_ID=2
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:12888:13888 server.3=zookeeper2.example.com:22888:23888
+      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
     # volumes:
     #   - ./data/zookeeper1/data:/data
     #   - ./data/zookeeper1/datalog:/datalog
@@ -51,7 +51,7 @@ services:
       service: zookeeper
     environment:
       - ZOO_MY_ID=3
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:12888:13888 server.3=zookeeper2.example.com:22888:23888
+      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
     # volumes:
     #   - ./data/zookeeper1/data:/data
     #   - ./data/zookeeper1/datalog:/datalog
@@ -73,6 +73,8 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
     ports:
       - 9092:9092
+      - 9093:9093
+
     #volumes:
     # 存储数据与日志.
     #- ./data/kafka0/data:/data
@@ -83,6 +85,7 @@ services:
       - zookeeper0.example.com
       - zookeeper1.example.com
       - zookeeper2.example.com
+
   kafka1.example.com:
     container_name: kafka1.example.com
     hostname: kafka1.example.com
@@ -91,9 +94,11 @@ services:
       service: kafka
     environment:
       - KAFKA_BROKER_ID=2
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
     ports:
       - 10092:9092
+      - 10093:9093
+
     #volumes:
     # 存储数据与日志.
     #- ./data/kafka1/data:/data
@@ -113,10 +118,12 @@ services:
       service: kafka
     environment:
       - KAFKA_BROKER_ID=3
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
 
     ports:
       - 11092:9092
+      - 11093:9093
+
     #volumes:
     # 存储数据与日志.
     #- ./data/kafka1/data:/data
@@ -140,6 +147,8 @@ services:
 
     ports:
       - 12092:9092
+      - 12093:9093
+
     #volumes:
     # 存储数据与日志.
     #- ./data/kafka1/data:/data
@@ -163,7 +172,6 @@ services:
       - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
       - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
       - ORDERER_KAFKA_VERBOSE=true
-      - ORDERER_KAFKA_BROKERS=[kafka0.example.com:9092,kafka1.example.com:10092,kafka2.example.com:11092,kafka3.example.com:12092]
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp:/var/hyperledger/orderer/msp
@@ -193,7 +201,6 @@ services:
       - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
       - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
       - ORDERER_KAFKA_VERBOSE=true
-      - ORDERER_KAFKA_BROKERS=[kafka0.example.com:9092,kafka1.example.com:10092,kafka2.example.com:11092,kafka3.example.com:12092]
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/orderer/msp
@@ -211,35 +218,34 @@ services:
       - kafka2.example.com
       - kafka3.example.com
   
-  orderer2.example.com:
-    container_name: orderer2.example.com
-    extends:
-      file: base.yaml
-      service:  orderer
-    environment:
-      # kafka
-      - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
-      - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
-      - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
-      - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
-      - ORDERER_KAFKA_VERBOSE=true
-      - ORDERER_KAFKA_BROKERS=[kafka0.example.com:9092,kafka1.example.com:10092,kafka2.example.com:11092,kafka3.example.com:12092]
-    volumes:
-      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
-    ports:
-      - 9050:7050
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
-      - kafka0.example.com
-      - kafka1.example.com
-      - kafka2.example.com
-      - kafka3.example.com
+  # orderer2.example.com:
+  #   container_name: orderer2.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service:  orderer
+  #   environment:
+  #     # kafka
+  #     - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
+  #     - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
+  #     - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
+  #     - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
+  #     - ORDERER_KAFKA_VERBOSE=true
+  #   volumes:
+  #     - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
+  #   ports:
+  #     - 9050:7050
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
+  #     - kafka0.example.com
+  #     - kafka1.example.com
+  #     - kafka2.example.com
+  #     - kafka3.example.com
 
   # ca.org1.example.com:
   #   container_name: ca.org1.example.com
@@ -337,10 +343,10 @@ services:
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 
       - CORE_PEER_ID=peer0.org1.example.com
-      - CORE_PEER_NETWORKID=${NETWORKMODE}
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org1.example.com:7052
+      # - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
+      # - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org1.example.com:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
 
@@ -352,7 +358,7 @@ services:
         # - ./data/peer0org1:/var/hyperledger/production
     ports:
       - 7051:7051
-      - 7052:7052
+      # - 7052:7052
       - 7053:7053
     networks:
       - byfn
@@ -362,7 +368,7 @@ services:
       # - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
-      - orderer2.example.com
+      # - orderer2.example.com
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
@@ -376,9 +382,9 @@ services:
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 
       - CORE_PEER_ID=peer0.org2.example.com
-      - CORE_PEER_NETWORKID=${NETWORKMODE}
       - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org2.example.com:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:7051
+      # - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org2.example.com:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
 
@@ -390,7 +396,6 @@ services:
         # - ./data/peer0org2:/var/hyperledger/production
     ports:
       - 8051:7051
-      - 8052:7052
       - 8053:7053
     networks:
       - byfn
@@ -400,7 +405,7 @@ services:
       # - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
-      - orderer2.example.com
+      # - orderer2.example.com
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
@@ -414,9 +419,9 @@ services:
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 
       - CORE_PEER_ID=peer1.org1.example.com
-      - CORE_PEER_NETWORKID=${NETWORKMODE}
       - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org1.example.com:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:7051
+      # - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org1.example.com:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
 
@@ -428,17 +433,16 @@ services:
         # - ./data/peer1org1:/var/hyperledger/production
     ports:
       - 9051:7051
-      - 9052:7052
       - 9053:7053
     networks:
       - byfn
-    # depends_on:
-    #   # - couchdb2
-    #   # - ca.org1.example.com
-    #   # - ca.org2.example.com
-    #   - orderer0.example.com
-    #   - orderer1.example.com
-    #   - orderer2.example.com
+    depends_on:
+      # - couchdb2
+      # - ca.org1.example.com
+      # - ca.org2.example.com
+      - orderer0.example.com
+      - orderer1.example.com
+      # - orderer2.example.com
 
     
   peer1.org2.example.com:
@@ -453,9 +457,9 @@ services:
       # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 
       - CORE_PEER_ID=peer1.org2.example.com
-      - CORE_PEER_NETWORKID=${NETWORKMODE}
       - CORE_PEER_ADDRESS=peer1.org2.example.com:7051
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org2.example.com:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+      # - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org2.example.com:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
 
@@ -467,17 +471,16 @@ services:
         # - ./data/peer1org2:/var/hyperledger/production
     ports:
       - 10051:7051
-      - 10052:7052
       - 10053:7053
     networks:
       - byfn
-    # depends_on:
-    #   # - couchdb3
-    #   # - ca.org1.example.com
-    #   # - ca.org2.example.com
-    #   - orderer0.example.com
-    #   - orderer1.example.com
-    #   - orderer2.example.com
+    depends_on:
+      # - couchdb3
+      # - ca.org1.example.com
+      # - ca.org2.example.com
+      - orderer0.example.com
+      - orderer1.example.com
+      # - orderer2.example.com
 
   cli:
     container_name: cli
@@ -487,13 +490,13 @@ services:
     environment:
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
     volumes:
-        - ./chaincode/go/:/opt/gopath/src/github.com/hyperledger/fabric/example/chaincode/go
+        - ./chaincode/go/:/opt/gopath/src/github.com/chaincode/chaincode_example02/go/
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
 
     networks:
@@ -502,7 +505,7 @@ services:
     depends_on:
       - orderer0.example.com
       - orderer1.example.com
-      - orderer2.example.com
+      # - orderer2.example.com
       - peer0.org1.example.com
       - peer0.org2.example.com
       - peer1.org1.example.com

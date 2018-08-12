@@ -10,10 +10,10 @@ services:
       # the following setting starts chaincode containers on the same
       # bridge network as the peers
       # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${PREFIX}_${NETWORKMODE}
-      - CORE_LOGGING_LEVEL=INFO
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_byfn
+      - CORE_LOGGING_LEVEL=DEBUG
       #- CORE_LOGGING_LEVEL=DEBUG
-      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
@@ -26,11 +26,10 @@ services:
   orderer:
     image: hyperledger/fabric-orderer
     environment:
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${PREFIX}_${NETWORKMODE}
       # - ORDERER_GENERAL_LOGLEVEL=error
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_LISTENPORT=7050
+      # - ORDERER_GENERAL_LISTENPORT=7050
       #- ORDERER_GENERAL_GENESISPROFILE=AntiMothOrdererGenesis
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
@@ -39,7 +38,7 @@ services:
       #- ORDERER_GENERAL_LEDGERTYPE=ram
       #- ORDERER_GENERAL_LEDGERTYPE=file
       # enabled TLS
-      - ORDERER_GENERAL_TLS_ENABLED=false
+      - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
@@ -52,10 +51,6 @@ services:
       restart: always
       environment:
         - quorumListenOnAllIPs=true
-      ports:
-      - '2181'
-      - '2888'
-      - '3888'
 
   kafka:
       image: hyperledger/fabric-kafka
@@ -79,8 +74,7 @@ services:
       # # 存储数据与日志.
       # - ./data/kafka1/data:/data
       # - ./data/kafka1/logs:/logs
-      ports:
-      - '9092'
+
 
   couchdb:
     image: hyperledger/fabric-couchdb
