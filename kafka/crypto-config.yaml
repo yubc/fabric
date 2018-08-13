@@ -3,23 +3,14 @@
 OrdererOrgs:
   - Name: Orderer
     Domain: example.com
-    CA:
-        Country: CN
-        Province: GuangDong
-        Locality: ShenZhen
     Specs:
-      - Hostname: orderer0
-      - Hostname: orderer1
-      - Hostname: orderer2
+      - Hostname: orderer
+      # - Hostname: orderer1
       
 PeerOrgs:
   - Name: Org1
     Domain: org1.example.com
     EnableNodeOUs: true
-    CA:
-        Country: CN
-        Province: GuangDong
-        Locality: ShenZhen
     Template:
       Count: 2
     Users:
@@ -27,10 +18,6 @@ PeerOrgs:
   - Name: Org2
     Domain: org2.example.com
     EnableNodeOUs: true
-    CA:
-        Country: CN
-        Province: GuangDong
-        Locality: ShenZhen
     Template:
       Count: 2
     Users:

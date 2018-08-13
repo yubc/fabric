@@ -6,217 +6,238 @@ networks:
   byfn:
 services:
 
-  zookeeper0.example.com:
-    container_name: zookeeper0.example.com
-    hostname: zookeeper0.example.com
-    extends:
-      file: base.yaml
-      service: zookeeper
-    environment:
-      - ZOO_MY_ID=1
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
-    # volumes:
-    #   - ./data/zookeeper1/data:/data
-    #   - ./data/zookeeper1/datalog:/datalog
-    networks:
-      - byfn
-    ports:
-      - 2181:2181
-      - 2888:2888
-      - 3888:3888
-  zookeeper1.example.com:
-    container_name: zookeeper1.example.com
-    hostname: zookeeper1.example.com
-    extends:
-      file: base.yaml
-      service: zookeeper
-    environment:
-      - ZOO_MY_ID=2
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
-    # volumes:
-    #   - ./data/zookeeper1/data:/data
-    #   - ./data/zookeeper1/datalog:/datalog
-    networks:
-      - byfn
-    ports:
-      - 12181:2181
-      - 12888:2888
-      - 13888:3888
+  # zookeeper0.example.com:
+  #   container_name: zookeeper0.example.com
+  #   hostname: zookeeper0.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: zookeeper
+  #   environment:
+  #     - ZOO_MY_ID=1
+  #     - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+  #   # volumes:
+  #   #   - ./data/zookeeper1/data:/data
+  #   #   - ./data/zookeeper1/datalog:/datalog
+  #   networks:
+  #     - byfn
+  #   ports:
+  #     - 2181:2181
+  #     - 2888:2888
+  #     - 3888:3888
+  # zookeeper1.example.com:
+  #   container_name: zookeeper1.example.com
+  #   hostname: zookeeper1.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: zookeeper
+  #   environment:
+  #     - ZOO_MY_ID=2
+  #     - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+  #   # volumes:
+  #   #   - ./data/zookeeper1/data:/data
+  #   #   - ./data/zookeeper1/datalog:/datalog
+  #   networks:
+  #     - byfn
+  #   ports:
+  #     - 12181:2181
+  #     - 12888:2888
+  #     - 13888:3888
 
-  zookeeper2.example.com:
-    container_name: zookeeper2.example.com
-    hostname: zookeeper2.example.com
-    extends:
-      file: base.yaml
-      service: zookeeper
-    environment:
-      - ZOO_MY_ID=3
-      - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
-    # volumes:
-    #   - ./data/zookeeper1/data:/data
-    #   - ./data/zookeeper1/datalog:/datalog
-    networks:
-      - byfn
-    ports:
-      - 22181:2181
-      - 22888:2888
-      - 23888:3888
+  # zookeeper2.example.com:
+  #   container_name: zookeeper2.example.com
+  #   hostname: zookeeper2.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: zookeeper
+  #   environment:
+  #     - ZOO_MY_ID=3
+  #     - ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+  #   # volumes:
+  #   #   - ./data/zookeeper1/data:/data
+  #   #   - ./data/zookeeper1/datalog:/datalog
+  #   networks:
+  #     - byfn
+  #   ports:
+  #     - 22181:2181
+  #     - 22888:2888
+  #     - 23888:3888
 
-  kafka0.example.com:
-    container_name: kafka0.example.com
-    hostname: kafka0.example.com
-    extends:
-      file: base.yaml
-      service: kafka
-    environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
-    ports:
-      - 9092:9092
-      - 9093:9093
+  # kafka0.example.com:
+  #   container_name: kafka0.example.com
+  #   hostname: kafka0.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: kafka
+  #   environment:
+  #     - KAFKA_BROKER_ID=1
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
+  #   ports:
+  #     - 9092:9092
+  #     - 9093:9093
 
-    #volumes:
-    # 存储数据与日志.
-    #- ./data/kafka0/data:/data
-    #- ./data/kafka0/data:/logs
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
+  #   #volumes:
+  #   # 存储数据与日志.
+  #   #- ./data/kafka0/data:/data
+  #   #- ./data/kafka0/data:/logs
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
 
-  kafka1.example.com:
-    container_name: kafka1.example.com
-    hostname: kafka1.example.com
-    extends:
-      file: base.yaml
-      service: kafka
-    environment:
-      - KAFKA_BROKER_ID=2
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
-    ports:
-      - 10092:9092
-      - 10093:9093
+  # kafka1.example.com:
+  #   container_name: kafka1.example.com
+  #   hostname: kafka1.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: kafka
+  #   environment:
+  #     - KAFKA_BROKER_ID=2
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
+  #   ports:
+  #     - 10092:9092
+  #     - 10093:9093
 
-    #volumes:
-    # 存储数据与日志.
-    #- ./data/kafka1/data:/data
-    #- ./data/kafka1/data:/logs
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
+  #   #volumes:
+  #   # 存储数据与日志.
+  #   #- ./data/kafka1/data:/data
+  #   #- ./data/kafka1/data:/logs
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
 
-  kafka2.example.com:
-    container_name: kafka2.example.com
-    hostname: kafka2.example.com
-    extends:
-      file: base.yaml
-      service: kafka
-    environment:
-      - KAFKA_BROKER_ID=3
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
+  # kafka2.example.com:
+  #   container_name: kafka2.example.com
+  #   hostname: kafka2.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: kafka
+  #   environment:
+  #     - KAFKA_BROKER_ID=3
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
 
-    ports:
-      - 11092:9092
-      - 11093:9093
+  #   ports:
+  #     - 11092:9092
+  #     - 11093:9093
 
-    #volumes:
-    # 存储数据与日志.
-    #- ./data/kafka1/data:/data
-    #- ./data/kafka1/data:/logs
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
+  #   #volumes:
+  #   # 存储数据与日志.
+  #   #- ./data/kafka1/data:/data
+  #   #- ./data/kafka1/data:/logs
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
   
-  kafka3.example.com:
-    container_name: kafka3.example.com
-    hostname: kafka3.example.com
-    extends:
-      file: base.yaml
-      service: kafka
-    environment:
-      - KAFKA_BROKER_ID=4
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
+  # kafka3.example.com:
+  #   container_name: kafka3.example.com
+  #   hostname: kafka3.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service: kafka
+  #   environment:
+  #     - KAFKA_BROKER_ID=4
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:12181,zookeeper2.example.com:22181
 
-    ports:
-      - 12092:9092
-      - 12093:9093
+  #   ports:
+  #     - 12092:9092
+  #     - 12093:9093
 
-    #volumes:
-    # 存储数据与日志.
-    #- ./data/kafka1/data:/data
-    #- ./data/kafka1/data:/logs
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
-
-  orderer0.example.com:
-    container_name: orderer0.example.com
+  #   #volumes:
+  #   # 存储数据与日志.
+  #   #- ./data/kafka1/data:/data
+  #   #- ./data/kafka1/data:/logs
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
+  
+  orderer.example.com:
+    container_name: orderer.example.com
     extends:
       file: base.yaml
       service:  orderer
     environment:
       # kafka
-      - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
-      - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
-      - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
-      - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
-      - ORDERER_KAFKA_VERBOSE=true
+      # - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
+      # - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
+      # - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
+      # - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
+      # - ORDERER_KAFKA_VERBOSE=true
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/:/var/hyperledger/orderer/tls
     ports:
       - 7050:7050
     networks:
       - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
-      - kafka0.example.com
-      - kafka1.example.com
-      - kafka2.example.com
-      - kafka3.example.com
 
-  orderer1.example.com:
-    container_name: orderer1.example.com
-    extends:
-      file: base.yaml
-      service:  orderer
-    environment:
-      # kafka
-      - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
-      - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
-      - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
-      - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
-      - ORDERER_KAFKA_VERBOSE=true
-    volumes:
-      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/:/var/hyperledger/orderer/tls
-    ports:
-      - 8050:7050
-    networks:
-      - byfn
-    depends_on:
-      - zookeeper0.example.com
-      - zookeeper1.example.com
-      - zookeeper2.example.com
-      - kafka0.example.com
-      - kafka1.example.com
-      - kafka2.example.com
-      - kafka3.example.com
+  # orderer0.example.com:
+  #   container_name: orderer0.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service:  orderer
+  #   environment:
+  #     # kafka
+  #     # - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
+  #     # - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
+  #     # - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
+  #     # - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
+  #     # - ORDERER_KAFKA_VERBOSE=true
+  #   volumes:
+  #     - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp:/var/hyperledger/orderer/msp
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/:/var/hyperledger/orderer/tls
+  #   ports:
+  #     - 7050:7050
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
+  #     - kafka0.example.com
+  #     - kafka1.example.com
+  #     - kafka2.example.com
+  #     - kafka3.example.com
+
+  # orderer1.example.com:
+  #   container_name: orderer1.example.com
+  #   extends:
+  #     file: base.yaml
+  #     service:  orderer
+  #   environment:
+  #     # kafka
+  #     - ORDERER_KAFKA_RETRY_LONGINTERVAL=10s
+  #     - ORDERER_KAFKA_RETRY_LONGTOTAL=100s
+  #     - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
+  #     - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
+  #     - ORDERER_KAFKA_VERBOSE=true
+  #   volumes:
+  #     - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/orderer/msp
+  #     - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/:/var/hyperledger/orderer/tls
+  #   ports:
+  #     - 8050:7050
+  #   networks:
+  #     - byfn
+  #   depends_on:
+  #     - zookeeper0.example.com
+  #     - zookeeper1.example.com
+  #     - zookeeper2.example.com
+  #     - kafka0.example.com
+  #     - kafka1.example.com
+  #     - kafka2.example.com
+  #     - kafka3.example.com
   
   # orderer2.example.com:
   #   container_name: orderer2.example.com
@@ -362,13 +383,13 @@ services:
       - 7053:7053
     networks:
       - byfn
-    depends_on:
-      # - couchdb0
-      # - ca.org1.example.com
-      # - ca.org2.example.com
-      - orderer0.example.com
-      - orderer1.example.com
-      # - orderer2.example.com
+    # depends_on:
+    #   # - couchdb0
+    #   # - ca.org1.example.com
+    #   # - ca.org2.example.com
+    #   - orderer0.example.com
+    #   - orderer1.example.com
+    #   # - orderer2.example.com
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
@@ -399,13 +420,13 @@ services:
       - 8053:7053
     networks:
       - byfn
-    depends_on:
-      # - couchdb1
-      # - ca.org1.example.com
-      # - ca.org2.example.com
-      - orderer0.example.com
-      - orderer1.example.com
-      # - orderer2.example.com
+    # depends_on:
+    #   # - couchdb1
+    #   # - ca.org1.example.com
+    #   # - ca.org2.example.com
+    #   - orderer0.example.com
+    #   - orderer1.example.com
+    #   # - orderer2.example.com
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
@@ -436,13 +457,13 @@ services:
       - 9053:7053
     networks:
       - byfn
-    depends_on:
-      # - couchdb2
-      # - ca.org1.example.com
-      # - ca.org2.example.com
-      - orderer0.example.com
-      - orderer1.example.com
-      # - orderer2.example.com
+    # depends_on:
+    #   # - couchdb2
+    #   # - ca.org1.example.com
+    #   # - ca.org2.example.com
+    #   - orderer0.example.com
+    #   - orderer1.example.com
+    #   # - orderer2.example.com
 
     
   peer1.org2.example.com:
@@ -474,13 +495,13 @@ services:
       - 10053:7053
     networks:
       - byfn
-    depends_on:
-      # - couchdb3
-      # - ca.org1.example.com
-      # - ca.org2.example.com
-      - orderer0.example.com
-      - orderer1.example.com
-      # - orderer2.example.com
+    # depends_on:
+    #   # - couchdb3
+    #   # - ca.org1.example.com
+    #   # - ca.org2.example.com
+    #   - orderer0.example.com
+    #   - orderer1.example.com
+    #   # - orderer2.example.com
 
   cli:
     container_name: cli
@@ -503,8 +524,8 @@ services:
       - byfn
 
     depends_on:
-      - orderer0.example.com
-      - orderer1.example.com
+      - orderer.example.com
+      # - orderer1.example.com
       # - orderer2.example.com
       - peer0.org1.example.com
       - peer0.org2.example.com
