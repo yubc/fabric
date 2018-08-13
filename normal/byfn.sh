@@ -8,7 +8,7 @@ export NETWORKMODE=byfn
 # channel name defaults to "mychannel"
 CHANNEL_NAME="mychannel"
 # use this as the default docker-compose yaml definition
-COMPOSE_FILE=docker-compose-kafka.yaml
+COMPOSE_FILE=docker-compose-solo.yaml
 
 function clearContainers () {
   CONTAINER_IDS=$(docker ps -aq)
