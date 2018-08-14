@@ -138,10 +138,42 @@ function removeUnwantedImages() {
     docker rmi -f $DOCKER_IMAGE_IDS
   fi
 }
+
+function replacePrivateKey () {
+  # sed on MacOSX does not support -i flag with a null extension. We will use
+  # 't' for our back-up's extension and delete it at the end of the function
+  ARCH=`uname -s | grep Darwin`
+  if [ "$ARCH" == "Darwin" ]; then
+    OPTS="-it"
+  else
+    OPTS="-i"
+  fi
+
+  # Copy the template to the file that will be modified to add the private key
+  cp docker-compose-template.yaml docker-compose-kafka.yaml
+
+  # The next steps will replace the template's contents with the
+  # actual values of the private key file names for the two CAs.
+  CURRENT_DIR=$PWD
+  cd crypto-config/peerOrganizations/org1.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-kafka.yaml
+  cd crypto-config/peerOrganizations/org2.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-kafka.yaml
+  # If MacOSX, remove the temporary backup of the docker-compose file
+  if [ "$ARCH" == "Darwin" ]; then
+    rm docker-compose-kafka.yamlt
+  fi
+}
+
 function networkUp () {
   # generate artifacts if they don't exist
   if [ ! -d "crypto-config" ]; then
     generateCerts
+    replacePrivateKey
     generateChannelArtifacts
   fi
   
@@ -173,7 +205,7 @@ function networkDown () {
     # remove orderer block and other channel configuration transactions and certs
     rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
-    rm -f docker-compose-e2e.yaml
+    rm -f docker-compose-kafka.yaml
   fi
 }
 

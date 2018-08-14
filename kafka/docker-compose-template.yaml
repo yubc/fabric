@@ -248,89 +248,101 @@ services:
       - kafka2.example.com
       - kafka3.example.com
 
-  # ca.org1.example.com:
-  #   container_name: ca.org1.example.com
-  #   extends:
-  #     file: base.yaml
-  #     service:  ca
-  #   environment:
-  #     - FABRIC_CA_SERVER_CA_NAME=ca-org1
-  #     - FABRIC_CA_SERVER_TLS_ENABLED=false
-  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/89548278441a1f0680a12ce8935c0e1c1710f8707b89b61e732efe9eda6ee3cd_sk
-  #   volumes:
-  #     - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
-  #   ports:
-  #     - 7054:7054
-  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/89548278441a1f0680a12ce8935c0e1c1710f8707b89b61e732efe9eda6ee3cd_sk -b admin:adminpw -d'
-  #   depends_on:
-  #     - orderer0.example.com
-  #     - orderer1.example.com
-  #     - orderer2.example.com
+  ca.org1.example.com:
+    container_name: ca.org1.example.com
+    extends:
+      file: base.yaml
+      service:  ca
+    environment:
+      - FABRIC_CA_SERVER_CA_NAME=ca-org1
+      - FABRIC_CA_SERVER_TLS_ENABLED=false
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY
+    volumes:
+      - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    ports:
+      - 7054:7054
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b admin:adminpw -d'
+    depends_on:
+      - orderer0.example.com
+      - orderer1.example.com
+      - orderer2.example.com
+    networks:
+      - byfn
   
-  # ca.org2.example.com:
-  #   container_name: ca.org2.example.com
-  #   extends:
-  #     file: base.yaml
-  #     service:  ca
-  #   environment:
-  #     - FABRIC_CA_SERVER_CA_NAME=ca-org2
-  #     - FABRIC_CA_SERVER_TLS_ENABLED=false
-  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/8356c941dfc1623f4d6bc4b74dfa331bca7a8a9583680307ffdcec4f2c6b7133_sk
-  #   volumes:
-  #     - ./crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
-  #   ports:
-  #     - 8054:7054
-  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/8356c941dfc1623f4d6bc4b74dfa331bca7a8a9583680307ffdcec4f2c6b7133_sk -b admin:adminpw -d'
-  #   depends_on:
-  #     - orderer0.example.com
-  #     - orderer1.example.com
-  #     - orderer2.example.com
+  ca.org2.example.com:
+    container_name: ca.org2.example.com
+    extends:
+      file: base.yaml
+      service:  ca
+    environment:
+      - FABRIC_CA_SERVER_CA_NAME=ca-org2
+      - FABRIC_CA_SERVER_TLS_ENABLED=false
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
+    volumes:
+      - ./crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    ports:
+      - 8054:7054
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
+    depends_on:
+      - orderer0.example.com
+      - orderer1.example.com
+      - orderer2.example.com
+    networks:
+      - byfn
 
-  # couchdb0:
-  #   container_name: couchdb0
-  #   extends:
-  #     file: base.yaml
-  #     service: couchdb 
-  #   ports:
-  #     - "5984:5984"
-  #   volumes:
-  #     # 数据持久化，用于存储链码值
-  #     - ./data/couchdb0/data:/opt/couchdb/data
+  couchdb0:
+    container_name: couchdb0
+    extends:
+      file: base.yaml
+      service: couchdb 
+    ports:
+      - 5984:5984
+    # volumes:
+    #   # 数据持久化，用于存储链码值
+    #   - ./data/couchdb0/data:/opt/couchdb/data
+    networks:
+      - byfn
 
-  # couchdb1:
-  #   container_name: couchdb1
-  #   extends:
-  #     file: base.yaml
-  #     service: couchdb 
-  #   ports:
-  #     - "6984:5984"
-  #   volumes:
-  #     # 数据持久化，用于存储链码值
-  #     - ./data/couchdb1/data:/opt/couchdb/data
+  couchdb1:
+    container_name: couchdb1
+    extends:
+      file: base.yaml
+      service: couchdb 
+    ports:
+      - 6984:5984
+    # volumes:
+    #   # 数据持久化，用于存储链码值
+    #   - ./data/couchdb1/data:/opt/couchdb/data
+    networks:
+      - byfn
 
-  # couchdb2:
-  #   container_name: couchdb2
-  #   extends:
-  #     file: base.yaml
-  #     service: couchdb 
-  #   ports:
-  #     - "7984:5984"
-  #   volumes:
-  #     # 数据持久化，用于存储链码值
-  #     - ./data/couchdb2/data:/opt/couchdb/data
+  couchdb2:
+    container_name: couchdb2
+    extends:
+      file: base.yaml
+      service: couchdb 
+    ports:
+      - 7984:5984
+    # volumes:
+    #   # 数据持久化，用于存储链码值
+    #   - ./data/couchdb2/data:/opt/couchdb/data
+    networks:
+      - byfn
 
-  # couchdb3:
-  #   container_name: couchdb3
-  #   extends:
-  #     file: base.yaml
-  #     service: couchdb 
-  #   ports:
-  #     - "8984:5984"
-  #   volumes:
-  #     # 数据持久化，用于存储链码值
-  #     - ./data/couchdb3/data:/opt/couchdb/data
+  couchdb3:
+    container_name: couchdb3
+    extends:
+      file: base.yaml
+      service: couchdb 
+    ports:
+      - 8984:5984
+    # volumes:
+    #   # 数据持久化，用于存储链码值
+    #   - ./data/couchdb3/data:/opt/couchdb/data
+    networks:
+      - byfn
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
@@ -338,10 +350,10 @@ services:
       file: base.yaml
       service: peer
     environment:
-      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=admin
 
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
@@ -357,14 +369,13 @@ services:
         # - ./data/peer0org1:/var/hyperledger/production
     ports:
       - 7051:7051
-      # - 7052:7052
       - 7053:7053
     networks:
       - byfn
     depends_on:
-      # - couchdb0
-      # - ca.org1.example.com
-      # - ca.org2.example.com
+      - couchdb0
+      - ca.org1.example.com
+      - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
       - orderer2.example.com
@@ -375,10 +386,10 @@ services:
       file: base.yaml
       service: peer
     environment:
-      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:6984
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=admin
 
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
@@ -398,9 +409,9 @@ services:
     networks:
       - byfn
     depends_on:
-      # - couchdb1
-      # - ca.org1.example.com
-      # - ca.org2.example.com
+      - couchdb1
+      - ca.org1.example.com
+      - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
       - orderer2.example.com
@@ -411,15 +422,14 @@ services:
       file: base.yaml
       service: peer
     environment:
-      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:7984
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=admin
 
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:7051
-      # - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org1.example.com:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
 
@@ -436,8 +446,8 @@ services:
       - byfn
     depends_on:
       # - couchdb2
-      # - ca.org1.example.com
-      # - ca.org2.example.com
+      - ca.org1.example.com
+      - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
       - orderer2.example.com
@@ -449,10 +459,10 @@ services:
       file: base.yaml
       service: peer
     environment:
-      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:8984
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=admin
 
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_ADDRESS=peer1.org2.example.com:7051
@@ -472,9 +482,9 @@ services:
     networks:
       - byfn
     depends_on:
-      # - couchdb3
-      # - ca.org1.example.com
-      # - ca.org2.example.com
+      - couchdb3
+      - ca.org1.example.com
+      - ca.org2.example.com
       - orderer0.example.com
       - orderer1.example.com
       - orderer2.example.com

@@ -65,7 +65,6 @@ joinChannel () {
 	done
 }
 
-export NETWORKMODE=fabme
 
 ## Create channel
 echo "Creating channel..."
