@@ -20,12 +20,10 @@ do
   docker tag ${DOCKER_NS}/$image:${ARCH}-${VERSION}  ${DOCKER_NS}/$image:latest
 done
 
-VERSION=1.0.6
 for image in ${FABRIC_KAFKA[@]}
 do
-  echo "Pulling ${DOCKER_NS}/$image:${ARCH}-${VERSION}"
-  docker pull ${DOCKER_NS}/$image:${ARCH}-${VERSION}
-  docker tag ${DOCKER_NS}/$image:${ARCH}-${VERSION}  ${DOCKER_NS}/$image:latest
+  echo "Pulling ${DOCKER_NS}/$image:latest"
+  docker pull ${DOCKER_NS}/$image
 done
 
 for base in ${FABRIC_BASE[@]}

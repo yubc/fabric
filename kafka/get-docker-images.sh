@@ -20,7 +20,7 @@ do
   docker tag ${DOCKER_NS}/$image:${ARCH}-${VERSION}  ${DOCKER_NS}/$image:latest
 done
 
-VERSION=1.0.6
+
 for image in ${FABRIC_KAFKA[@]}
 do
   echo "Pulling ${DOCKER_NS}/$image:latest"
